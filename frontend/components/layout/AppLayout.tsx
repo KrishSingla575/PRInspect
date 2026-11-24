@@ -20,6 +20,10 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const title = pageTitles[location.pathname] ?? 'PRInspect'
 
+  // The login route sits inside (app) to use its existing auth provider, but
+  // it should remain a focused, full-screen sign-in surface without workspace chrome.
+  if (location.pathname === '/login') return <>{children}</>
+
   return (
     <div className="min-h-screen bg-[#090b0f] text-slate-100 lg:flex">
       {mobileNavOpen && (

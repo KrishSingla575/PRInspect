@@ -47,7 +47,12 @@ function SignedOutPanel() {
         </Link>
       </div>
 
-      {showAuthModal && <AuthOverlay onClose={() => setShowAuthModal(false)} />}
+      {showAuthModal && (
+        <AuthOverlay
+          providers={['github', 'google']}
+          onClose={() => setShowAuthModal(false)}
+        />
+      )}
     </div>
   )
 }
