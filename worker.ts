@@ -25,6 +25,7 @@ import { buildTools } from './src/ai/tools.js'
 import { tasks as cronTasks, runTask as runCronTask } from './src/cron.js'
 import { runJob } from './src/jobs.js'
 import { schemas } from './src/schemas.js'
+import customRoutes from './backend/src/routes/index.js'
 import { registerActionRoutes } from './src/server/action-routes.js'
 import {
   registerAuthAndIntegrationRoutes,
@@ -135,6 +136,7 @@ app.use('*', async (c, next) => {
 // Registration order is part of the worker contract. The wildcard auth route
 // follows its special cases, AI precedes platform proxies, and static is last.
 registerAuthAndIntegrationRoutes(app)
+app.route('/', customRoutes)
 registerRealtimeRoutes(app)
 registerActionRoutes(app, resolveAuth)
 // Every scaffold exposes selected tools through HTTP, MCP and browser tools.
