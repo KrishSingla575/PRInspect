@@ -1,10 +1,3 @@
-// import { StrictMode } from 'react'
-// import { createRoot } from 'react-dom/client'
-// import './APP.css'
-// // import APP from './App.tsx'
-
-// createRoot(document.getElementById('root')!).render(
-//   <StrictMode>
-//     <App />
-//   </StrictMode>,
-// )
+// This retained scaffold is no longer an application entry point.
+// The DeepSpace Vite + Worker app starts from the repository root src/main.tsx.
+export {}

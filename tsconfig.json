@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "types": ["@cloudflare/workers-types", "vite/client"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@frontend/*": ["./frontend/*"],
+      "@backend/*": ["./backend/*"],
+      "react": ["./node_modules/@types/react/index.d.ts"],
+      "react/*": ["./node_modules/@types/react/*"],
+      "react-dom": ["./node_modules/@types/react-dom/index.d.ts"],
+      "react-dom/*": ["./node_modules/@types/react-dom/*"]
+    }
+  },
+  "include": [
+    "src",
+    "backend",
+    "worker.ts",
+    "frontend/components",
+    "frontend/pages",
+    "frontend/services",
+    "frontend/types",
+    "frontend/lib",
+    "frontend/constants.ts",
+    "frontend/nav.ts",
+    "frontend/seo.ts"
+  ]
+}

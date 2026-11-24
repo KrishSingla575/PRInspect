@@ -155,3 +155,9 @@ vite.config.ts.timestamp-*
 .nx/cache
 .nx/workspace-data
 .nx/migrate-runs
+
+# DeepSpace and Wrangler local state
+.claude/launch.json
+.deepspace/install.started
+.deepspace/install.done
+.wrangler/
