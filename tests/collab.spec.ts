@@ -55,10 +55,19 @@ test('each browser renders its own signed-in account', async ({ users }) => {
     // visibility.)
     await expect(user.page.getByTestId('nav-user-name')).toHaveText(/\S/, { timeout: 15_000 })
 
-    await user.page.getByRole('button', { name: 'Account menu' }).click()
-    await expect(user.page.getByTestId('nav-user-email')).toHaveText(user.email, {
-      timeout: 15_000,
-    })
+    const accountMenu = user.page.getByRole('button', { name: 'Account menu' })
+    await accountMenu.click()
+    const accountEmail = user.page.getByTestId('nav-user-email')
+    await expect(accountEmail).toBeVisible()
+    await expect(accountEmail).toHaveText(user.email, { timeout: 15_000 })
+
+    await user.page.keyboard.press('Escape')
+    await expect(accountEmail).toBeHidden()
+
+    await accountMenu.click()
+    await expect(accountEmail).toBeVisible()
+    await accountMenu.click()
+    await expect(accountEmail).toBeHidden()
   }
 })
 

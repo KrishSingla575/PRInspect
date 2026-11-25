@@ -1,6 +1,14 @@
 import { useState } from 'react'
-import { AuthOverlay, useAuthProfileReady } from 'deepspace'
-import { Bell, Menu, Search, Command } from 'lucide-react'
+import { AuthOverlay, signOut, useAuthProfileReady } from 'deepspace'
+import { Bell, ChevronDown, LogOut, Menu, Search, Command } from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/DropdownMenu'
 
 interface HeaderProps {
   title: string
@@ -48,14 +56,41 @@ export default function Header({ title, onMenuClick }: HeaderProps) {
       {!isLoaded ? null : isSignedIn && !profileReady ? (
         <div aria-label="Loading account" className="h-8 w-24 animate-pulse rounded-full bg-white/[0.06]" />
       ) : isSignedIn && user ? (
-        <div data-testid="nav-user-name" className="hidden items-center gap-2 sm:flex">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-400 to-violet-600 text-[10px] font-semibold text-white">
-            {(user.name?.[0] ?? user.email?.[0] ?? 'U').toUpperCase()}
-          </span>
-          <span className="max-w-32 truncate text-xs font-medium text-slate-300">
-            {user.name || user.email}
-          </span>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            render={
+              <button
+                type="button"
+                aria-label="Account menu"
+                className="group flex items-center gap-2 rounded-lg border border-white/[0.07] bg-white/[0.025] px-2 py-1.5 text-left transition hover:bg-white/[0.06]"
+              >
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-400 to-violet-600 text-[10px] font-semibold text-white">
+                  {(user.name?.[0] ?? user.email?.[0] ?? 'U').toUpperCase()}
+                </span>
+                <span
+                  data-testid="nav-user-name"
+                  className="hidden max-w-32 truncate text-xs font-medium text-slate-300 sm:block"
+                >
+                  {user.name || user.email}
+                </span>
+                <ChevronDown className="h-3.5 w-3.5 text-slate-500 transition-transform group-data-[popup-open]:rotate-180" aria-hidden />
+              </button>
+            }
+          />
+          <DropdownMenuContent align="end" className="w-64 border-white/[0.08] bg-[#10141b] text-slate-100">
+            <DropdownMenuLabel>
+              <div className="truncate text-xs font-medium text-slate-200">{user.name || 'Signed in'}</div>
+              <div data-testid="nav-user-email" className="mt-1 truncate text-xs font-normal text-slate-400">
+                {user.email}
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-white/[0.08]" />
+            <DropdownMenuItem onClick={() => signOut()} className="text-slate-300">
+              <LogOut aria-hidden />
+              Sign out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       ) : (
         <button
           type="button"
