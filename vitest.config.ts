@@ -22,8 +22,10 @@ export default defineConfig({
   // so a unit test importing src/constants.ts sees what the browser will.
   define: appIdDefine({ appDir }),
   resolve: {
+    dedupe: ['react', 'react-dom', 'react-router', 'react-router-dom'],
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@frontend': fileURLToPath(new URL('./frontend', import.meta.url)),
     },
   },
   test: {

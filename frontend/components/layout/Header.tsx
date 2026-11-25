@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { AuthOverlay, useAuthProfileReady } from 'deepspace'
 import { Bell, Menu, Search, Command } from 'lucide-react'
 
 interface HeaderProps {
@@ -6,6 +8,10 @@ interface HeaderProps {
 }
 
 export default function Header({ title, onMenuClick }: HeaderProps) {
+  const { isLoaded, isSignedIn, user, userLoading } = useAuthProfileReady({ requireUser: true })
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const profileReady = !isSignedIn || (!userLoading && !!user)
+
   return (
     <header className="sticky top-0 z-30 flex h-[72px] items-center gap-4 border-b border-white/[0.07] bg-[#090b0f]/90 px-4 backdrop-blur-xl sm:px-6 lg:px-10">
       <button
@@ -39,10 +45,33 @@ export default function Header({ title, onMenuClick }: HeaderProps) {
         <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-indigo-400 ring-2 ring-[#090b0f]" />
       </button>
       <div className="hidden h-8 w-px bg-white/[0.08] sm:block" />
-      <div className="hidden items-center gap-2 sm:flex">
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-400 to-violet-600 text-[10px] font-semibold text-white">PR</span>
-        <span className="text-xs font-medium text-slate-300">Developer</span>
-      </div>
+      {!isLoaded ? null : isSignedIn && !profileReady ? (
+        <div aria-label="Loading account" className="h-8 w-24 animate-pulse rounded-full bg-white/[0.06]" />
+      ) : isSignedIn && user ? (
+        <div data-testid="nav-user-name" className="hidden items-center gap-2 sm:flex">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-400 to-violet-600 text-[10px] font-semibold text-white">
+            {(user.name?.[0] ?? user.email?.[0] ?? 'U').toUpperCase()}
+          </span>
+          <span className="max-w-32 truncate text-xs font-medium text-slate-300">
+            {user.name || user.email}
+          </span>
+        </div>
+      ) : (
+        <button
+          type="button"
+          data-testid="nav-sign-in-button"
+          onClick={() => setShowAuthModal(true)}
+          className="rounded-lg bg-indigo-500 px-3 py-2 text-xs font-semibold text-white transition hover:bg-indigo-400"
+        >
+          Sign in
+        </button>
+      )}
+      {showAuthModal && (
+        <AuthOverlay
+          providers={['github', 'google']}
+          onClose={() => setShowAuthModal(false)}
+        />
+      )}
     </header>
   )
 }

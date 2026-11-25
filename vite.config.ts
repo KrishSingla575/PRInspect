@@ -47,7 +47,11 @@ export default defineConfig({
     }),
   ],
   resolve: {
-    dedupe: ['react', 'react-dom'],
+    // The retained frontend source can resolve nested copies of React Router.
+    // The root entry imports RouterProvider from `react-router` while pages
+    // import hooks/Outlet/Link from `react-router-dom`; these must share one
+    // context instance or the matched route tree renders an empty outlet.
+    dedupe: ['react', 'react-dom', 'react-router', 'react-router-dom'],
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@frontend': fileURLToPath(new URL('./frontend', import.meta.url)),

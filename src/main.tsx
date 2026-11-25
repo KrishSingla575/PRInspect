@@ -24,6 +24,13 @@ async function main() {
           done()
         }
       })
+      // Initialization can finish between the guard above and subscribing.
+      // Recheck after attaching the listener so that transition cannot leave
+      // the entry point waiting forever on a state change that already passed.
+      if (router.state.initialized) {
+        stop()
+        done()
+      }
     })
   }
 

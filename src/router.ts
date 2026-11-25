@@ -8,6 +8,7 @@ export type Path =
   | `/`
   | `/api-status`
   | `/home`
+  | `/login`
   | `/repositories`
   | `/reviews`
   | `/settings`

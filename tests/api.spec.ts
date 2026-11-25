@@ -10,9 +10,14 @@ test.describe('API tests', () => {
     // /home is a dynamic page (under src/pages/(app)/), so mounting it boots
     // the providers and auto-connects the records WebSocket. The static
     // landing at '/' deliberately does neither — see smoke.spec.ts.
+    const recordsSocket = page.waitForEvent('websocket', {
+      predicate: (socket) => new URL(socket.url()).pathname.startsWith('/ws/'),
+      timeout: 15000,
+    })
     await page.goto('/home')
-    // Wait for the app to connect its WebSocket (it auto-connects on mount)
     await page.waitForSelector('[data-testid="app-navigation"]', { timeout: 15000 })
-    // If the app loaded and connected, the WS endpoint works
+    const socket = await recordsSocket
+    expect(new URL(socket.url()).pathname).toMatch(/^\/ws\/[^/]+$/)
+    expect(socket.isClosed()).toBe(false)
   })
 })

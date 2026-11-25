@@ -48,7 +48,7 @@ export default function Sidebar({ open, onNavigate }: SidebarProps) {
 
       <div className="px-3 pt-6">
         <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-600">Workspace</p>
-        <nav aria-label="Main navigation" className="space-y-1">
+        <nav data-testid="app-navigation" aria-label="Main navigation" className="space-y-1">
           {links.map(({ to, label, icon: Icon, end }) => (
             <NavLink
               key={to}
