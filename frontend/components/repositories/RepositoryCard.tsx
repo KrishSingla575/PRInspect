@@ -13,9 +13,10 @@ export type Repository = {
 type RepositoryCardProps = {
   repository: Repository;
   onSelect?: (repository: Repository) => void;
+  onRemove?: (repository: Repository) => void;
 };
 
-export default function RepositoryCard({ repository, onSelect }: RepositoryCardProps) {
+export default function RepositoryCard({ repository, onSelect, onRemove }: RepositoryCardProps) {
   const content = (
     <>
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-400/10 text-indigo-300">
@@ -39,9 +40,10 @@ export default function RepositoryCard({ repository, onSelect }: RepositoryCardP
     <button type="button" onClick={() => onSelect(repository)} className="flex w-full min-w-0 items-center gap-3 rounded-xl border border-white/[0.07] bg-[#10141b] p-4 text-left transition hover:border-white/[0.14] sm:gap-4 sm:p-5">
       {content}
     </button>
-  ) : (
+      ) : (
     <article className="flex min-w-0 items-center gap-3 rounded-xl border border-white/[0.07] bg-[#10141b] p-4 sm:gap-4 sm:p-5">
       {content}
+      {onRemove && <button type="button" onClick={() => onRemove(repository)} className="shrink-0 rounded-md px-2 py-1 text-xs text-slate-500 hover:bg-white/[0.04] hover:text-slate-200">Remove</button>}
     </article>
   );
 }

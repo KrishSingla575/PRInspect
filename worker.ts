@@ -25,6 +25,8 @@ import { buildTools } from './src/ai/tools.js'
 import { tasks as cronTasks, runTask as runCronTask } from './src/cron.js'
 import { runJob } from './src/jobs.js'
 import { schemas } from './src/schemas.js'
+import { GithubOAuthStateRoom as GithubOAuthStateRoomBase } from './backend/src/durable-objects/github-oauth-state.js'
+import { GithubWebhookDeliveryRoom as GithubWebhookDeliveryRoomBase } from './backend/src/durable-objects/github-webhook-delivery.js'
 import customRoutes from './backend/src/routes/index.js'
 import { registerActionRoutes } from './src/server/action-routes.js'
 import {
@@ -43,6 +45,8 @@ export const __DO_MANIFEST__ = [
   { binding: 'PRESENCE_ROOMS', className: 'AppPresenceRoom', sqlite: true },
   { binding: 'CRON_ROOMS', className: 'AppCronRoom', sqlite: true },
   { binding: 'JOB_ROOMS', className: 'AppJobRoom', sqlite: true },
+  { binding: 'GITHUB_OAUTH_STATES', className: 'GithubOAuthStateRoom', sqlite: true },
+  { binding: 'GITHUB_WEBHOOK_DELIVERIES', className: 'GithubWebhookDeliveryRoom', sqlite: true },
 ] as const satisfies DOManifest
 
 export class AppRecordRoom extends RecordRoom<Env> {
@@ -83,6 +87,12 @@ export class AppJobRoom extends JobRoom<Env> {
   }
 }
 
+/** Atomic, short-lived, single-use OAuth state storage. */
+export class GithubOAuthStateRoom extends GithubOAuthStateRoomBase {}
+
+/** Atomically deduplicates signed webhook deliveries with expiring records. */
+export class GithubWebhookDeliveryRoom extends GithubWebhookDeliveryRoomBase {}
+
 export interface Env extends DOBindings<typeof __DO_MANIFEST__> {
   ASSETS: Fetcher
   /**
@@ -119,6 +129,14 @@ export interface Env extends DOBindings<typeof __DO_MANIFEST__> {
    * an authenticated app owner/admin. deepspace dev/test set it locally.
    */
   ALLOW_DEBUG_ROUTES?: string
+  GITHUB_OAUTH_STATES: DurableObjectNamespace
+  GITHUB_WEBHOOK_DELIVERIES: DurableObjectNamespace
+  GITHUB_APP_ID?: string
+  GITHUB_APP_CLIENT_ID?: string
+  GITHUB_APP_CLIENT_SECRET?: string
+  GITHUB_APP_PRIVATE_KEY?: string
+  GITHUB_APP_SLUG?: string
+  GITHUB_APP_WEBHOOK_SECRET?: string
 }
 
 export type AppContext = { Bindings: Env }

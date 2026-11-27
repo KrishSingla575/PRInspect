@@ -18,6 +18,7 @@ export const pullRequestsSchema: CollectionSchema = {
     { name: 'sourceBranch', storage: 'text', interpretation: 'plain', required: true },
     { name: 'targetBranch', storage: 'text', interpretation: 'plain', required: true },
     { name: 'htmlUrl', storage: 'text', interpretation: { kind: 'url' }, required: true },
+    { name: 'updatedAt', storage: 'text', interpretation: { kind: 'datetime' } },
   ],
   permissions: {
     '*': { read: false, create: false, update: false, delete: false },

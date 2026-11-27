@@ -33,7 +33,7 @@ export default function PullRequestList({ pullRequests, loading = false, error, 
         <div className="flex flex-col items-center px-5 py-11 text-center">
           <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.025] text-slate-500"><GitPullRequest size={19} /></span>
           <p className="mt-3 text-sm font-medium text-slate-300">No pull requests to show</p>
-          <p className="mt-1 max-w-sm text-xs leading-5 text-slate-500">Connect a repository after GitHub integration is available to browse pull requests.</p>
+          <p className="mt-1 max-w-sm text-xs leading-5 text-slate-500">No pull requests are available for this repository yet.</p>
         </div>
       ) : (
         <ul className="divide-y divide-white/[0.05]">

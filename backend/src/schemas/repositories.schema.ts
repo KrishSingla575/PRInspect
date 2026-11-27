@@ -10,6 +10,7 @@ export const repositoriesSchema: CollectionSchema = {
     { name: 'htmlUrl', storage: 'text', interpretation: { kind: 'url' }, required: true },
     { name: 'description', storage: 'text', interpretation: 'plain' },
     { name: 'defaultBranch', storage: 'text', interpretation: 'plain', required: true },
+    { name: 'selected', storage: 'number', interpretation: { kind: 'boolean' }, required: true, default: true },
   ],
   permissions: {
     '*': { read: false, create: false, update: false, delete: false },

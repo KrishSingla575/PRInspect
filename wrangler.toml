@@ -29,6 +29,9 @@ run_worker_first = ["/api/*", "/ws/*", "/internal/*", "/v1/*", "/_deepspace/*", 
 [vars]
 DEEPSPACE_APP_ID = "app_01M86A3K9W3DTKVDKFHQFQ3QWR"
 APP_NAME = "prinspect-ds"
+GITHUB_APP_ID = "5926654"
+GITHUB_APP_CLIENT_ID = "Iv23lio3Emy5JzUwWYxx"
+GITHUB_APP_SLUG = "prinspect-krishsingla"
 # Exact comma-separated native callback URIs. Set this before deploying an
 # Expo client, for example: "myapp://auth/callback".
 NATIVE_AUTH_REDIRECT_URIS = ""
@@ -36,6 +39,14 @@ NATIVE_AUTH_REDIRECT_URIS = ""
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["AppRecordRoom", "AppYjsRoom", "AppCanvasRoom", "AppPresenceRoom", "AppCronRoom", "AppJobRoom"]
+
+[[migrations]]
+tag = "v2-github-oauth-state"
+new_sqlite_classes = ["GithubOAuthStateRoom"]
+
+[[migrations]]
+tag = "v3-github-webhook-deliveries"
+new_sqlite_classes = ["GithubWebhookDeliveryRoom"]
 
 [durable_objects]
 bindings = [
@@ -45,6 +56,8 @@ bindings = [
   { name = "PRESENCE_ROOMS", class_name = "AppPresenceRoom" },
   { name = "CRON_ROOMS", class_name = "AppCronRoom" },
   { name = "JOB_ROOMS", class_name = "AppJobRoom" },
+  { name = "GITHUB_OAUTH_STATES", class_name = "GithubOAuthStateRoom" },
+  { name = "GITHUB_WEBHOOK_DELIVERIES", class_name = "GithubWebhookDeliveryRoom" },
 ]
 
 # For per-app resources (D1, KV, Vectorize, R2, Queues, AI Search), set the id

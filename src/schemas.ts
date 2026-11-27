@@ -5,8 +5,9 @@ import { repositoriesSchema } from '../backend/src/schemas/repositories.schema.j
 import { pullRequestsSchema } from '../backend/src/schemas/pull_requests.schema.js'
 import { reviewsSchema } from '../backend/src/schemas/reviews.schema.js'
 import { findingsSchema } from '../backend/src/schemas/findings.schema.js'
+import { githubConnectionsSchema } from '../backend/src/schemas/github_connections.schema.js'
 
-export { usersSchema, settingsSchema, repositoriesSchema, pullRequestsSchema, reviewsSchema, findingsSchema }
+export { usersSchema, settingsSchema, repositoriesSchema, pullRequestsSchema, reviewsSchema, findingsSchema, githubConnectionsSchema }
 
 /**
  * The one schema registry consumed by both the worker and RecordScope.
@@ -21,4 +22,5 @@ export const schemas: CollectionSchema[] = [
   pullRequestsSchema,
   reviewsSchema,
   findingsSchema,
+  githubConnectionsSchema,
 ]

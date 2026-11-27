@@ -30,7 +30,7 @@ export default defineConfig({
   },
   test: {
     // Unit tests only; tests/*.spec.ts are Playwright suites run separately.
-    include: ['prerender.test.ts', 'src/**/*.{test,spec}.{ts,tsx}'],
+    include: ['prerender.test.ts', 'src/**/*.{test,spec}.{ts,tsx}', 'backend/src/**/*.{test,spec}.{ts,tsx}'],
     environment: 'node',
   },
 })
